@@ -42,7 +42,6 @@ class App extends Component {
 
     render() {
         let persons = null;
-        let btnClass = '';
 
         if (this.state.showPersons) {
             persons = 
@@ -50,13 +49,12 @@ class App extends Component {
                     persons={this.state.persons} 
                     clicked = {this.deletePersonHandler} 
                     changed={this.nameChangedHandler}/>
-            btnClass = classes.Red;
+
         }
 
         return (
             <div className={classes.App}>
-                <Cockpit length = {persons == null ? 1000 : persons.length}></Cockpit>
-                <button className={btnClass} onClick={this.togglePersonsHandler}>Switch</button>
+                <Cockpit showPersons={this.state.showPersons} clicked={this.nameChangedHandler} length = {persons == null ? 1000 : persons.length}></Cockpit>
                 {persons}
             </div>
         );
