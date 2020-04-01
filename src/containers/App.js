@@ -4,6 +4,17 @@ import Cockpit from './../components/Cockpit/Cockpit'
 import Persons from './../components/Persons/Persons'
 
 class App extends Component {
+    
+    constructor(props){
+        super(props);
+        console.log('[App.js] constructor');
+    }
+
+    static getDerivedStateFromProps(props, state){
+        console.log('[App.js] getDerivedStateFromProps', props);
+        return state;
+    }
+
     state = {
         persons: [
             { id: 'a1', name: "Ewelina", age: 17 },
@@ -11,7 +22,8 @@ class App extends Component {
             { id: 'a3', name: "Artur", age: 34 }
         ],
         color: 'red',
-        showPersons: false
+        showPersons: false,
+        showCockpit: true
     }
 
     deletePersonHandler = (personIndex) => {
@@ -40,21 +52,34 @@ class App extends Component {
         this.setState({ persons: newPersons });
     }
 
-    render() {
-        let persons = null;
+    cockpitShowEventHandler = () => {
+        const newState = !this.state.showCockpit;
+        this.setState({showCockpit: newState});
+    }
 
+    render() {
+        console.log('[App.js] render');
+        let persons = null;
+        let cockpit = null;
         if (this.state.showPersons) {
             persons = 
                 <Persons 
                     persons={this.state.persons} 
                     clicked = {this.deletePersonHandler} 
                     changed={this.nameChangedHandler}/>
+        }
 
+        if(this.state.showCockpit){
+            cockpit = <Cockpit title={this.props.appTitle}
+            showPersons={this.state.showPersons} 
+            clicked={this.togglePersonsHandler} 
+            persons={this.state.persons}/>;
         }
 
         return (
             <div className={classes.App}>
-                <Cockpit showPersons={this.state.showPersons} clicked={this.nameChangedHandler} length = {persons == null ? 1000 : persons.length}></Cockpit>
+                <button onClick={this.cockpitShowEventHandler}>Remove Cockpit</button>
+                {cockpit}
                 {persons}
             </div>
         );
