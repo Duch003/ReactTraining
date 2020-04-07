@@ -4,6 +4,14 @@ import ErrorBoundary from './../ErrorBoundary/ErrorBoundary'
 
 class Persons extends Component {
 
+    static getDerivedStateFromProps(props, state) {
+        return null;
+    }
+
+    componentWillUnmount() {
+        console.log('[Persons.js] componentWillUnmount');
+    }
+
     shouldComponentUpdate(prevProps, nextState){
         console.log('[Persons.js] shouldComponentUpdate');
         return prevProps.persons !== this.props.person

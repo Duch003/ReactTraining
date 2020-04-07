@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import AppStyles from './Cockpit.css'
 
 const cockpit = (props) => {
@@ -7,12 +7,22 @@ const cockpit = (props) => {
         console.log('[Cockpit.js] useEffect');
         setTimeout(() => {
             alert('Saved data to cloud!');
-        }, 5000);
+        }, 1000);
         return () => {
             console.log('[Cockpit.js] useEffect cleanup');
         }
-    }, [])
-    
+    }, []); //Second argument: points all data used in effect. If data change, so useEffect will execute
+    //if [props.persons] -> executes only when persons property will differ
+    //if [] (empty) -> never rerun
+    //if (no argument) -> run every time
+
+    useEffect(() => {
+        console.log('[Cockpit.js] 2nd useEffect');
+        return () => {
+            console.log('[Cockpit.js] 2nd useEffect cleanup');
+        }
+    });
+
     const assignedClasses = [];
     let btnClass = '';
 

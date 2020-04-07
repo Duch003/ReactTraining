@@ -4,15 +4,41 @@ import Cockpit from './../components/Cockpit/Cockpit'
 import Persons from './../components/Persons/Persons'
 
 class App extends Component {
-    
+    //LIFECYCLE HOOKS
+    //[Creating #1] constructor
+    // - Set up state (initial at last)
     constructor(props){
         super(props);
         console.log('[App.js] constructor');
     }
 
+    //[Creating #2]                     [Updating #1] getDerivedStateFromProps
+    // - cause side-effects              - Sync State to props
+    // - keyword static is important
     static getDerivedStateFromProps(props, state){
         console.log('[App.js] getDerivedStateFromProps', props);
         return state;
+    }
+
+    //[Updating #2]
+    // - you can cancel updating process
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('[App.js] shouldComponentUpdate');
+    }
+    
+
+    //[Creating #4] componentWillMount
+    // - unsupported (unsafe)
+    componentWillMount() {
+        console.log('[App.js] componentWillMount');
+    }
+
+    //[Creating #5] componentDidMount
+    // - invoked when component is fully rendered/ready
+    // - cause side-effects (http etc.)
+    // - DON'T USE setState (inf. loop -> rerender)
+    componentDidMount() {
+        console.log('[App.js] componentDidMount');
     }
 
     state = {
@@ -26,11 +52,30 @@ class App extends Component {
         showCockpit: true
     }
 
+    //[Updating #4] getSnapshotBeforeUpdate
+    // - use for last-minute DOM operations (for example, position of scrollbar)
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        console.log('[App.js] getSnapshotBeforeUpdate');
+        return null;
+    }
+
+    //[Updating #5] componentDidUpdate
+    // - cause side-effects
+    // - DON'T UPDATE STATE (inf. loop)
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log('[App.js] componentDidUpdate');
+    }
+
     deletePersonHandler = (personIndex) => {
         //const persons = this.state.persons.slice();
         const persons = [...this.state.persons];
         persons.splice(personIndex, 1);
         this.setState({ persons: persons })
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('[App.js] shouldComponentUpdate');
+        return true;
     }
 
     togglePersonsHandler = () => {
@@ -57,6 +102,9 @@ class App extends Component {
         this.setState({showCockpit: newState});
     }
 
+    //[Creating #3] [Updating #3] render
+    // - prepare and structure JSX code
+    // - renders/updates child components
     render() {
         console.log('[App.js] render');
         let persons = null;
